@@ -1,11 +1,12 @@
-const config = require("config");
+const { authenticate } = require('./auth'); // Make sure the path is correct
 
 module.exports = function(req, res, next) {
-  // 401 Unauthorized
-  // 403 Forbidden
-  if (!config.get("requiresAuth")) return next();
-
-  if (!req.user.isAdmin) return res.status(403).send("Access denied.");
-
-  next();
+  // Ensure the user is authenticated
+  authenticate(req, res, () => {
+    // Check if the user has an admin role
+    if (req.user && req.user.role === 'admin') {
+      return next();
+    }
+    return res.status(403).json({ message: 'Access denied. Admins only.' });
+  });
 };

@@ -2,8 +2,11 @@ const { Rental, validate } = require("../models/rental");
 const { Movie } = require("../models/movie");
 const { Customer } = require("../models/customer");
 const auth = require("../middleware/auth");
-const mongoose = require("mongoose");
-const Fawn = require("fawn");
+const mongoose = require('mongoose');  // Ensure this is only imported here
+const Fawn = require('fawn');
+
+// Inside your `db.js` file, after the `mongoose.connect`:
+Fawn.init(mongoose);
 const express = require("express");
 const router = express.Router();
 

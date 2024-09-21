@@ -1,6 +1,17 @@
 const Joi = require('joi');
-const mongoose = require('mongoose');
+
 const moment = require('moment');
+// routes/rentals.js
+const mongoose = require('mongoose');
+const Fawn = require('fawn');
+
+// Ensure mongoose is connected
+mongoose.connect('mongodb://localhost:27017/vidly')
+  .then(() => console.log('Connected to MongoDB...'))
+  .catch(err => console.error('Could not connect to MongoDB...', err));
+
+// Initialize Fawn with the correct mongoose instance
+Fawn.init(mongoose);
 
 const rentalSchema = new mongoose.Schema({
   customer: { 
